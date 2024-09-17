@@ -85,13 +85,13 @@ public class TaskManager {
         tasks.put(task.getId(), task);
     }
 
-    public void updateEpic(Epic task) {
-        epics.put(task.getId(), task);
+    public void updateEpic(Epic epic) {
+        epics.put(epic.getId(), epic);
     }
 
-    public void updateSubtask(Subtask task) {
-        subtasks.put(task.getId(), task);
-        updateEpicProgress(epics.get(task.getEpicId()));
+    public void updateSubtask(Subtask subtask) {
+        subtasks.put(subtask.getId(), subtask);
+        updateEpicProgress(epics.get(subtask.getEpicId()));
     }
 
     public void deleteTask(Task task) {
