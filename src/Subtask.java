@@ -1,6 +1,7 @@
+import java.util.Objects;
+
 public class Subtask extends Task {
-    protected final TaskType taskType = TaskType.SUBTASK;
-    protected Epic epic;
+    private int epicId;
 
     public Subtask(String name, String description, Progress taskProgress) {
         super(name, description, taskProgress);
@@ -10,13 +11,33 @@ public class Subtask extends Task {
         super(name, description);
     }
 
-    protected void setEpic(Epic epic) {
-        this.epic = epic;
-        epic.addSubtask(this);
+    public int getEpicId() {
+        return epicId;
     }
 
-    protected Epic getEpic() {
-        return this.epic;
+    public void setEpicId(int epicId) {
+        this.epicId = epicId;
     }
+
+    public String toString() {
+        return "Subtask id: " + id +
+                ", Name: " + this.name +
+                ", Descr: " + this.description +
+                ", Progress: " + this.taskProgress +
+                ", epic id: " + this.getEpicId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!super.equals(o)) return false;
+        Subtask subtask = (Subtask) o;
+        return epicId == subtask.epicId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), epicId);
+    }
+
 
 }

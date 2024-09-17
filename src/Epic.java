@@ -1,59 +1,43 @@
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Epic extends Task {
-    private ArrayList<Subtask> epicSubtasks = new ArrayList<>();
-    protected final TaskType taskType = TaskType.EPIC;
+    private List<Integer> subtaskIds = new ArrayList<>();
 
     public Epic(String name, String description) {
         super(name, description);
     }
 
-    protected void addSubtask(Subtask task) {
-        for (int i = 0; i < epicSubtasks.size(); i++) {
-            if (epicSubtasks.get(i).getId() == task.getId()) {
-                epicSubtasks.set(i, task);
-                return;
-            }
-        }
-        epicSubtasks.add(task);
-    }
-
-
-    public ArrayList<Subtask> getSubtasks() {
-        return this.epicSubtasks;
-    }
-
-    public Progress getEpicProgress() {
-        return this.taskProgress;
-    }
-
-    protected void updateEpicProgress() {
-        boolean allNew = true;
-        boolean allDone = true;
-
-        for (Subtask task : this.epicSubtasks) {
-            Progress taskProgress = task.getTaskProgress();
-
-            if (taskProgress != Progress.NEW) {
-                allNew = false;
-            }
-            if (taskProgress != Progress.DONE) {
-                allDone = false;
-            }
-        }
-
-        if (allNew) {
-            this.taskProgress = Progress.NEW;
-        } else if (allDone) {
-            this.taskProgress = Progress.DONE;
-        } else {
-            this.taskProgress = Progress.IN_PROGRESS;
+    public void addSubtaskId(int subtaskId) {
+        if (!subtaskIds.contains(subtaskId)) {
+            subtaskIds.add(subtaskId);
         }
     }
 
-    public void removeSubtask(Subtask task) {
-        epicSubtasks.remove(task);
+    public List<Integer> getSubtaskIds() {
+        return subtaskIds;
     }
 
+    public String toString() {
+        return "Epic id: " + id +
+                ", Name: " + this.name +
+                ", Descr: " + this.description +
+                ", Progress: " + this.taskProgress +
+                ", Num of subtasks: " + this.getSubtaskIds().size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!super.equals(o)) return false;
+
+        Epic epic = (Epic) o;
+        return Objects.equals(subtaskIds, epic.subtaskIds);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), subtaskIds);
+    }
 
 }

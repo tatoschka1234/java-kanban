@@ -31,36 +31,35 @@ public class Main {
         Subtask subtask1_epic2 = new Subtask("epic2 subtask1", "ddd");
         manager.addSubtask(epic2, subtask1_epic2);
 
+        System.out.println("All epics2: " + manager.getAllEpics());
         System.out.println("All subtasks: " + manager.getAllSubtasks());
-        System.out.println("Epic1 progress: " + epic1.getEpicProgress());
-        System.out.println("epic1 subtasks: " + epic1.getSubtasks());
+        System.out.println("epic1 subtasks: " + manager.getSubtasks(epic1));
 
         System.out.println("Epic2");
-        System.out.println("Epic2 progress: " + epic2.getEpicProgress());
-        System.out.println("epic2 subtasks: " + epic2.getSubtasks());
+        System.out.println("Epic2 progress: " + epic2.getProgress());
+        System.out.println("epic2 subtasks: " + manager.getSubtasks(epic2));
 
         // subtask upd
         Subtask subtaskUpd = new Subtask("epic1 subtask2 new", "new descr", Progress.DONE);
         subtaskUpd.setId(subtask2_epic1.getId());
-        subtaskUpd.setEpic(subtask2_epic1.getEpic());
+        subtaskUpd.setEpicId(subtask2_epic1.getEpicId());
         manager.updateSubtask(subtaskUpd);
 
         System.out.println("\nAfter upd:");
         System.out.println("All subtasks: " + manager.getAllSubtasks());
-        System.out.println("Epic1 progress: " + epic1.getEpicProgress());
-        System.out.println("epic1 subtasks: " + epic1.getSubtasks());
-
-        System.out.println("Epic2 progress: " + epic2.getEpicProgress());
-        System.out.println("epic2 subtasks: " + epic2.getSubtasks());
+        System.out.println("Epic1 progress: " + epic1.getProgress());
+        System.out.println("epic1 subtasks: " + manager.getSubtasks(epic1));
+        System.out.println("Epic2 progress: " + epic2.getProgress());
+        System.out.println("epic2 subtasks: " + manager.getSubtasks(epic2));
 
         System.out.println("\nAll tasks: " + manager.getAllTasks());
         System.out.println("All subtasks: " + manager.getAllSubtasks());
         System.out.println("All epics: " + manager.getAllEpics());
 
         System.out.println("\nGet by id");
-        System.out.println("Get task: " + manager.getTask(1));
-        System.out.println("Get epic: " + manager.getEpic(1));
-        System.out.println("Get subtask: " + manager.getSubtask(1));
+        System.out.println("Get task: " + manager.getTask(task1.getId()));
+        System.out.println("Get epic: " + manager.getEpic(epic1.getId()));
+        System.out.println("Get subtask: " + manager.getSubtask(subtask1_epic1.getId()));
 
         System.out.println("\nDelete by id");
         manager.deleteTask(task2);
@@ -69,17 +68,17 @@ public class Main {
         System.out.println("All tasks: " + manager.getAllTasks());
         System.out.println("All subtasks: " + manager.getAllSubtasks());
         System.out.println("All epics: " + manager.getAllEpics());
-        System.out.println("Epic1 progress: " + epic1.getEpicProgress());
-        System.out.println("epic1 subtasks: " + epic1.getSubtasks());
-        System.out.println("Epic2 progress: " + epic2.getEpicProgress());
-        System.out.println("epic2 subtasks: " + epic2.getSubtasks());
+        System.out.println("Epic1 progress: " + epic1.getProgress());
+        System.out.println("epic1 subtasks: " + manager.getSubtasks(epic1));
+        System.out.println("Epic2 progress: " + epic2.getProgress());
+        System.out.println("epic2 subtasks: " + manager.getSubtasks(epic2));
 
         System.out.println("\nDelete All");
-        manager.rmAllTasks();
+        manager.removeAllTasks();
         System.out.println("All tasks: " + manager.getAllTasks());
-        manager.rmAllSubtasks();
+        manager.removeAllSubtasks();
         System.out.println("All subtasks: " + manager.getAllSubtasks());
-        manager.rmAllEpics();
+        manager.removeAllEpics();
         System.out.println("All epics: " + manager.getAllEpics());
     }
 }

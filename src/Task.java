@@ -1,12 +1,10 @@
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Task {
     protected String name;
     protected String description;
-    protected long id;
+    protected int id;
     protected Progress taskProgress;
-    protected final TaskType taskType = TaskType.TASK; // I'm going to use it! somehow
 
     public Task(String name, String description, Progress taskProgress) {
         this.name = name;
@@ -20,26 +18,28 @@ public class Task {
         this.taskProgress = Progress.NEW;
     }
 
-    protected long getId() {
+    protected int getId() {
         return id;
     }
 
-
     @Override
     public String toString() {
-        return "Type: " + getClass().getName() +
-                ", id: " + id +
+        return "Task id: " + id +
                 ", Name: " + this.name +
                 ", Descr: " + this.description +
                 ", Progress: " + this.taskProgress;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Progress getTaskProgress() {
+    public Progress getProgress() {
         return this.taskProgress;
+    }
+
+    public void setTaskProgress(Progress progess) {
+        this.taskProgress = progess;
     }
 
     @Override
@@ -47,8 +47,7 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id &&
-                Objects.equals(taskType, task.taskType);
+        return id == task.id;
     }
 
     @Override
