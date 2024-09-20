@@ -1,8 +1,38 @@
 public class Main {
+    private static void printAllTasks(TaskManager manager) {
+        System.out.println("Задачи:");
+        for (Task task : manager.getAllTasks()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Task epic : manager.getAllEpics()) {
+            System.out.println(epic);
+
+            for (Task task : manager.getSubtasks((Epic) epic)) {
+                System.out.println("--> " + task);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Task subtask : manager.getAllSubtasks()) {
+            System.out.println(subtask);
+        }
+
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
+    }
 
     public static void main(String[] args) {
 
-        TaskManager manager = new TaskManager();
+        //Managers managers = new Managers();
+        TaskManager manager = Managers.getDefault();
+
+        Epic epic11 = new Epic("Epic1", "Epic descr");
+        epic11.setId(1);
+        Subtask subtask1_epic11 = new Subtask("epic1 subtask1", "subtask1_descr", Progress.DONE);
+        subtask1_epic11.setId(1);
+        manager.addSubtask(epic11, subtask1_epic11);
 
         Task task1 = new Task("Task1", "task1_descr", Progress.DONE);
         Task task2 = new Task("Task2", "task2_descr");
@@ -28,6 +58,8 @@ public class Main {
 
         Epic epic2 = new Epic("Epic2", "epic2_desc");
         manager.addEpic(epic2);
+        boolean f;
+        f = epic2 == epic1;
         Subtask subtask1_epic2 = new Subtask("epic2 subtask1", "ddd");
         manager.addSubtask(epic2, subtask1_epic2);
 
@@ -60,6 +92,10 @@ public class Main {
         System.out.println("Get task: " + manager.getTask(task1.getId()));
         System.out.println("Get epic: " + manager.getEpic(epic1.getId()));
         System.out.println("Get subtask: " + manager.getSubtask(subtask1_epic1.getId()));
+
+        //System.out.println("History: " + manager.getHistory());
+
+        printAllTasks(manager);
 
         System.out.println("\nDelete by id");
         manager.deleteTask(task2);

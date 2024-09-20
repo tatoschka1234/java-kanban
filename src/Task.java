@@ -6,6 +6,14 @@ public class Task {
     protected int id;
     protected Progress taskProgress;
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public Task(String name, String description, Progress taskProgress) {
         this.name = name;
         this.description = description;
