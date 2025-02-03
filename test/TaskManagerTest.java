@@ -62,40 +62,40 @@ public class TaskManagerTest {
     void addNewSubtask() {
         Epic epic1 = new Epic("Epic1", "Epic descr");
         manager.addEpic(epic1);
-        Subtask subtask1_epic1 = new Subtask("epic1 subtask1", "subtask1_descr", Progress.DONE);
-        manager.addSubtask(epic1, subtask1_epic1);
-        Subtask savedSubtask = manager.getSubtask(subtask1_epic1.getId());
+        Subtask subtask1Epic1 = new Subtask("epic1 subtask1", "subtask1_descr", Progress.DONE);
+        manager.addSubtask(epic1, subtask1Epic1);
+        Subtask savedSubtask = manager.getSubtask(subtask1Epic1.getId());
 
         assertNotNull(savedSubtask, "Сабтаска не найдена.");
-        assertEquals(subtask1_epic1, savedSubtask, "Сабтаски не совпадают.");
+        assertEquals(subtask1Epic1, savedSubtask, "Сабтаски не совпадают.");
 
         Epic epic2 = new Epic("Epic2", "Epic descr");
         manager.addEpic(epic2);
-        Subtask subtask1_epic2 = new Subtask("epic2 subtask1", "subtask1_descr", Progress.DONE);
-        manager.addSubtask(epic2, subtask1_epic2);
+        Subtask subtask1Epic2 = new Subtask("epic2 subtask1", "subtask1_descr", Progress.DONE);
+        manager.addSubtask(epic2, subtask1Epic2);
 
         List<Task> subtasks = manager.getAllSubtasks();
         assertNotNull(subtasks, "Сабтаски не возвращаются.");
         assertEquals(2, subtasks.size(), "Неверное количество сабтасок.");
-        assertEquals(subtask1_epic1, subtasks.get(0), "Сабтаски не совпадают.");
+        assertEquals(subtask1Epic1, subtasks.get(0), "Сабтаски не совпадают.");
 
         List<Task> subtasks1 = manager.getSubtasks(epic1);
         assertNotNull(subtasks1, "Сабтаски для эпика не возвращаются.");
         assertEquals(1, subtasks1.size(), "Неверное количество сабтасок.");
-        assertEquals(subtask1_epic1, subtasks1.get(0), "Сабтаски не совпадают.");
+        assertEquals(subtask1Epic1, subtasks1.get(0), "Сабтаски не совпадают.");
     }
 
     @Test
     void deleteEpicAndItsSubtasks() {
         Epic epic1 = new Epic("Epic1", "Epic descr");
         manager.addEpic(epic1);
-        Subtask subtask1_epic1 = new Subtask("epic1 subtask1", "subtask1_descr", Progress.DONE);
-        manager.addSubtask(epic1, subtask1_epic1);
+        Subtask subtask1Epic1 = new Subtask("epic1 subtask1", "subtask1_descr", Progress.DONE);
+        manager.addSubtask(epic1, subtask1Epic1);
 
         Epic epic2 = new Epic("Epic2", "Epic descr");
         manager.addEpic(epic2);
-        Subtask subtask1_epic2 = new Subtask("epic2 subtask1", "subtask1_descr", Progress.DONE);
-        manager.addSubtask(epic2, subtask1_epic2);
+        Subtask subtask1Epic2 = new Subtask("epic2 subtask1", "subtask1_descr", Progress.DONE);
+        manager.addSubtask(epic2, subtask1Epic2);
         assertEquals(2, manager.getAllEpics().size(), "неверное число эпиков");
         assertEquals(2, manager.getAllSubtasks().size(), "неверное число сабтасок");
 
@@ -125,13 +125,13 @@ public class TaskManagerTest {
     void deleteSubTasks() {
         Epic epic1 = new Epic("Epic1", "Epic descr");
         manager.addEpic(epic1);
-        Subtask subtask1_epic1 = new Subtask("epic1 subtask1", "subtask1_descr", Progress.DONE);
-        manager.addSubtask(epic1, subtask1_epic1);
-        Subtask subtask2_epic1 = new Subtask("epic1 subtask1", "subtask1_descr", Progress.DONE);
-        manager.addSubtask(epic1, subtask2_epic1);
+        Subtask subtask1Epic1 = new Subtask("epic1 subtask1", "subtask1_descr", Progress.DONE);
+        manager.addSubtask(epic1, subtask1Epic1);
+        Subtask subtask2Epic1 = new Subtask("epic1 subtask1", "subtask1_descr", Progress.DONE);
+        manager.addSubtask(epic1, subtask2Epic1);
         assertEquals(2, manager.getAllSubtasks().size(), "неверное число сабтасок");
 
-        manager.deleteSubtask(subtask1_epic1);
+        manager.deleteSubtask(subtask1Epic1);
         assertEquals(1, manager.getAllSubtasks().size(), "неверное число сабтасок");
 
         manager.removeAllSubtasks();

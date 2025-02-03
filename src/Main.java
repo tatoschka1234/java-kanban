@@ -42,16 +42,16 @@ public class Main {
         Epic epic1 = new Epic("Epic1", "Tasks.Epic descr");
         manager.addEpic(epic1);
 
-        Subtask subtask1_epic1 = new Subtask("subtask1", "subtask1_descr", Progress.DONE);
-        manager.addSubtask(epic1, subtask1_epic1);
-        Subtask subtask2_epic1 = new Subtask("subtask2", "subtask2_descr", Progress.IN_PROGRESS);
-        manager.addSubtask(epic1, subtask2_epic1);
-        Subtask subtask3_epic1 = new Subtask("subtask3", "subtask3_descr", Progress.NEW);
-        manager.addSubtask(epic1, subtask3_epic1);
+        Subtask subtask1Epic1 = new Subtask("subtask1", "subtask1_descr", Progress.DONE);
+        manager.addSubtask(epic1, subtask1Epic1);
+        Subtask subtask2Epic1 = new Subtask("subtask2", "subtask2_descr", Progress.IN_PROGRESS);
+        manager.addSubtask(epic1, subtask2Epic1);
+        Subtask subtask3Epic1 = new Subtask("subtask3", "subtask3_descr", Progress.NEW);
+        manager.addSubtask(epic1, subtask3Epic1);
 
-        manager.getSubtask(subtask3_epic1.getId());
+        manager.getSubtask(subtask3Epic1.getId());
         manager.getEpic(epic1.getId());
-        manager.getSubtask(subtask1_epic1.getId());
+        manager.getSubtask(subtask1Epic1.getId());
         manager.getEpic(epic1.getId());
         manager.getTask(task2.getId());
         manager.getTask(task2.getId());
@@ -60,7 +60,7 @@ public class Main {
 
         List<Task> history2 = historyManager.getHistory();
 
-        manager.deleteSubtask(subtask3_epic1);
+        manager.deleteSubtask(subtask3Epic1);
         System.out.println("History:\n " + manager.getHistory());
         manager.deleteEpic(epic1);
         System.out.println("History:\n " + manager.getHistory());

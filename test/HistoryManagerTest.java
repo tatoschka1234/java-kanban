@@ -84,13 +84,13 @@ public class HistoryManagerTest {
     void rmHistoryIfEpicRemoved() {
         Epic epic1 = new Epic("Epic1", "Tasks.Epic descr");
         manager.addEpic(epic1);
-        Subtask subtask1_epic1 = new Subtask("subtask1", "subtask1_descr", Progress.DONE);
-        manager.addSubtask(epic1, subtask1_epic1);
-        Subtask subtask2_epic1 = new Subtask("subtask2", "subtask2_descr", Progress.IN_PROGRESS);
-        manager.addSubtask(epic1, subtask2_epic1);
+        Subtask subtask1Epic1 = new Subtask("subtask1", "subtask1_descr", Progress.DONE);
+        manager.addSubtask(epic1, subtask1Epic1);
+        Subtask subtask2Epic1 = new Subtask("subtask2", "subtask2_descr", Progress.IN_PROGRESS);
+        manager.addSubtask(epic1, subtask2Epic1);
 
-        manager.getSubtask(subtask2_epic1.getId());
-        manager.getSubtask(subtask1_epic1.getId());
+        manager.getSubtask(subtask2Epic1.getId());
+        manager.getSubtask(subtask1Epic1.getId());
 
         List<Task> history = manager.getHistory();
         assertEquals(2, history.size(), "История пустая");
@@ -104,18 +104,18 @@ public class HistoryManagerTest {
     void rmHistoryIfSubTaskRemoved() {
         Epic epic1 = new Epic("Epic1", "Tasks.Epic descr");
         manager.addEpic(epic1);
-        Subtask subtask1_epic1 = new Subtask("subtask1", "subtask1_descr", Progress.DONE);
-        manager.addSubtask(epic1, subtask1_epic1);
-        Subtask subtask2_epic1 = new Subtask("subtask2", "subtask2_descr", Progress.IN_PROGRESS);
-        manager.addSubtask(epic1, subtask2_epic1);
+        Subtask subtask1Epic1 = new Subtask("subtask1", "subtask1_descr", Progress.DONE);
+        manager.addSubtask(epic1, subtask1Epic1);
+        Subtask subtask2Epic1 = new Subtask("subtask2", "subtask2_descr", Progress.IN_PROGRESS);
+        manager.addSubtask(epic1, subtask2Epic1);
 
-        manager.getSubtask(subtask2_epic1.getId());
-        manager.getSubtask(subtask1_epic1.getId());
+        manager.getSubtask(subtask2Epic1.getId());
+        manager.getSubtask(subtask1Epic1.getId());
 
         List<Task> history = manager.getHistory();
         assertEquals(2, history.size(), "История пустая");
 
-        manager.deleteSubtask(subtask1_epic1);
+        manager.deleteSubtask(subtask1Epic1);
         List<Task> history1 = manager.getHistory();
         assertEquals(1, history1.size(), "Неверный рвзмер истории");
     }
