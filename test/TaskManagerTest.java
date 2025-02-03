@@ -153,4 +153,80 @@ public class TaskManagerTest {
 
     }
 
+    @Test
+    void shouldRemoveSubtaskAndClearEpicRef() {
+        TaskManager manager = Managers.getDefault();
+        Epic epic = new Epic("Epic1", "Epic descr");
+        manager.addEpic(epic);
+
+        Subtask subtask = new Subtask("Subtask1", "Subtask descr", Progress.NEW);
+        manager.addSubtask(epic, subtask);
+
+        int subtaskId = subtask.getId();
+        manager.deleteSubtask(subtask);
+
+        assertNull(manager.getSubtask(subtaskId), "Subtask должен быть удалён");
+        assertFalse(epic.getSubtaskIds().contains(subtaskId), "Эпик не должен содержать старый ID подзадачи");
+    }
+
+    @Test
+    void shouldRemoveSubtaskIdFromEpicWhenSubtaskRm() {
+        TaskManager manager = Managers.getDefault();
+        Epic epic = new Epic("Epic1", "Epic descr");
+        manager.addEpic(epic);
+
+        Subtask subtask = new Subtask("Subtask1", "Subtask descr", Progress.NEW);
+        manager.addSubtask(epic, subtask);
+
+        int subtaskId = subtask.getId();
+        manager.deleteSubtask(subtask);
+
+        assertFalse(epic.getSubtaskIds().contains(subtaskId), "ID подзадачи должен быть удалён из эпика");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenChangeTaskId() {
+        TaskManager manager = Managers.getDefault();
+        Task task = new Task("Task1", "Task1 descr", Progress.NEW);
+        manager.addTask(task);
+
+        int oldId = task.getId();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            task.setId(999);
+        }, "Попытка изменить ID задачи после назначения должна вызывать исключение");
+        assertEquals(oldId, task.getId(), "ID задачи не должен изменяться после назначения");
+    }
+
+
+    @Test
+    void shouldNotChangeEpicProgressWhenSubtaskProgressChangedDirectly() {
+        TaskManager manager = Managers.getDefault();
+        Epic epic = new Epic("Epic1", "Epic descr");
+        manager.addEpic(epic);
+
+        Subtask subtask = new Subtask("Subtask1", "Subtask descr", Progress.NEW);
+        manager.addSubtask(epic, subtask);
+
+        subtask.setTaskProgress(Progress.DONE);
+        assertNotEquals(Progress.DONE, manager.getEpic(epic.getId()).getProgress(),
+                "Статус эпика не должен меняться без updateSubtask");
+    }
+
+    @Test
+    void shouldNotChangeEpicReferenceWhenSubtaskEpicIdChangedDirectly() {
+        TaskManager manager = Managers.getDefault();
+        Epic epic1 = new Epic("Epic1", "Epic descr");
+        Epic epic2 = new Epic("Epic2", "Another descr");
+        manager.addEpic(epic1);
+        manager.addEpic(epic2);
+
+        Subtask subtask = new Subtask("Subtask1", "Subtask descr", Progress.NEW);
+        manager.addSubtask(epic1, subtask);
+
+        subtask.setEpicId(epic2.getId());
+        assertTrue(epic1.getSubtaskIds().contains(subtask.getId()),
+                "Старая связь с эпиком не должна исчезать без удаления из менеджера");
+    }
+
+
 }

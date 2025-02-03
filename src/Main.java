@@ -1,6 +1,9 @@
+import managers.HistoryManager;
 import managers.Managers;
 import managers.TaskManager;
 import tasks.*;
+
+import java.util.List;
 
 public class Main {
     private static void printAllTasks(TaskManager manager) {
@@ -30,7 +33,7 @@ public class Main {
     public static void main(String[] args) {
 
         TaskManager manager = Managers.getDefault();
-
+        HistoryManager historyManager = Managers.getDefaultHistory();
         Task task1 = new Task("Task1", "task1_descr", Progress.DONE);
         Task task2 = new Task("Task2", "task2_descr");
         manager.addTask(task1);
@@ -46,11 +49,22 @@ public class Main {
         Subtask subtask3_epic1 = new Subtask("subtask3", "subtask3_descr", Progress.NEW);
         manager.addSubtask(epic1, subtask3_epic1);
 
+        manager.getSubtask(subtask3_epic1.getId());
         manager.getEpic(epic1.getId());
         manager.getSubtask(subtask1_epic1.getId());
         manager.getEpic(epic1.getId());
         manager.getTask(task2.getId());
+        manager.getTask(task2.getId());
+        System.out.println("History:\n " + manager.getHistory());
+        List<Task> history = manager.getHistory();
 
+        List<Task> history2 = historyManager.getHistory();
+
+        manager.deleteSubtask(subtask3_epic1);
+        System.out.println("History:\n " + manager.getHistory());
+        manager.deleteEpic(epic1);
+        System.out.println("History:\n " + manager.getHistory());
+        manager.deleteTask(task2);
         System.out.println("History:\n " + manager.getHistory());
     }
 }

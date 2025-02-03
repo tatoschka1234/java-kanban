@@ -3,7 +3,7 @@ package tasks;
 import java.util.Objects;
 
 public class Subtask extends Task {
-    private int epicId;
+    private Integer epicId;
 
     public Subtask(String name, String description, Progress taskProgress) {
         super(name, description, taskProgress);
@@ -11,6 +11,12 @@ public class Subtask extends Task {
 
     public Subtask(String name, String description) {
         super(name, description);
+    }
+
+    public Subtask(Subtask other) {
+        super(other.getName(), other.getDescription(), other.getProgress());
+        this.setId(other.getId());
+        this.epicId = other.getEpicId();
     }
 
     public int getEpicId() {

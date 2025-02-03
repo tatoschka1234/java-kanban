@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Task {
     protected String name;
     protected String description;
-    protected int id;
+    protected Integer id;
     protected Progress taskProgress;
 
     public String getName() {
@@ -28,6 +28,14 @@ public class Task {
         this.taskProgress = Progress.NEW;
     }
 
+    public Task(Task copyTask) {
+        this.id = copyTask.id;
+        this.name = copyTask.getName();
+        this.description = copyTask.getDescription();
+        this.taskProgress = copyTask.getProgress();
+    }
+
+
     public int getId() {
         return id;
     }
@@ -41,6 +49,9 @@ public class Task {
     }
 
     public void setId(int id) {
+        if (this.id != null) {
+            throw new UnsupportedOperationException("ID задачи нельзя изменить после назначения");
+        }
         this.id = id;
     }
 
