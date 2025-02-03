@@ -1,3 +1,6 @@
+import managers.HistoryManager;
+import managers.Managers;
+import tasks.Task;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

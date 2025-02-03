@@ -1,3 +1,5 @@
+import tasks.Progress;
+import tasks.Task;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

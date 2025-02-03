@@ -1,3 +1,6 @@
+import managers.Managers;
+import managers.TaskManager;
+import tasks.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

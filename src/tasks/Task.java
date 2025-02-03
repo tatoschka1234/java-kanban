@@ -1,3 +1,5 @@
+package tasks;
+
 import java.util.Objects;
 
 public class Task {
@@ -26,16 +28,16 @@ public class Task {
         this.taskProgress = Progress.NEW;
     }
 
-    protected int getId() {
+    public int getId() {
         return id;
     }
 
     @Override
     public String toString() {
-        return "Task id: " + id +
+        return "Tasks.Task id: " + id +
                 ", Name: " + this.name +
                 ", Descr: " + this.description +
-                ", Progress: " + this.taskProgress;
+                ", Tasks.Progress: " + this.taskProgress + "\n";
     }
 
     public void setId(int id) {
