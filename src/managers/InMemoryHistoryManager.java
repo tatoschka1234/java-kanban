@@ -37,12 +37,11 @@ public class InMemoryHistoryManager implements HistoryManager {
     private void addNodeToTheEnd(Node node) {
         if (tail == null) {
             head = node;
-            tail = node;
         } else {
             tail.next = node;
             node.prev = tail;
-            tail = node;
         }
+        tail = node;
     }
 
     @Override
