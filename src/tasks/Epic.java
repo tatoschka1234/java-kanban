@@ -1,3 +1,5 @@
+package tasks;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,11 +22,11 @@ public class Epic extends Task {
     }
 
     public String toString() {
-        return "Epic id: " + id +
+        return "Tasks.Epic id: " + id +
                 ", Name: " + this.name +
                 ", Descr: " + this.description +
-                ", Progress: " + this.taskProgress +
-                ", Num of subtasks: " + this.getSubtaskIds().size();
+                ", Tasks.Progress: " + this.taskProgress +
+                ", Num of subtasks: " + this.getSubtaskIds().size() + "\n";
     }
 
     @Override

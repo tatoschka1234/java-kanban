@@ -1,9 +1,11 @@
+package tasks;
+
 import java.util.Objects;
 
 public class Task {
     protected String name;
     protected String description;
-    protected int id;
+    protected Integer id;
     protected Progress taskProgress;
 
     public String getName() {
@@ -26,19 +28,30 @@ public class Task {
         this.taskProgress = Progress.NEW;
     }
 
-    protected int getId() {
+    public Task(Task copyTask) {
+        this.id = copyTask.id;
+        this.name = copyTask.getName();
+        this.description = copyTask.getDescription();
+        this.taskProgress = copyTask.getProgress();
+    }
+
+
+    public int getId() {
         return id;
     }
 
     @Override
     public String toString() {
-        return "Task id: " + id +
+        return "Tasks.Task id: " + id +
                 ", Name: " + this.name +
                 ", Descr: " + this.description +
-                ", Progress: " + this.taskProgress;
+                ", Tasks.Progress: " + this.taskProgress + "\n";
     }
 
     public void setId(int id) {
+        if (this.id != null) {
+            throw new UnsupportedOperationException("ID задачи нельзя изменить после назначения");
+        }
         this.id = id;
     }
 
