@@ -39,6 +39,9 @@ public class Task {
     public int getId() {
         return id;
     }
+    public TaskTypes getTaskType() {
+        return TaskTypes.TASK;
+    }
 
     @Override
     public String toString() {
