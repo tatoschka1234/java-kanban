@@ -40,6 +40,10 @@ public class Task {
         return id;
     }
 
+    public TaskTypes getTaskType() {
+        return TaskTypes.TASK;
+    }
+
     @Override
     public String toString() {
         return "Tasks.Task id: " + id +

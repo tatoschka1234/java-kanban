@@ -84,6 +84,10 @@ public class InMemoryTaskManager implements TaskManager {
         return null;
     }
 
+    protected Epic getEpicNoHistory(int epicId) {
+        return epics.get(epicId);
+    }
+
 
 
     @Override
@@ -217,5 +221,16 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
+    protected void loadTask(Task task) {
+        tasks.put(task.getId(), task);
+    }
+
+    protected void loadEpic(Epic epic) {
+        epics.put(epic.getId(), epic);
+    }
+
+    protected void loadSubtask(Subtask subtask) {
+        subtasks.put(subtask.getId(), subtask);
+    }
 
 }
