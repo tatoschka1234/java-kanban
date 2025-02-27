@@ -1,11 +1,16 @@
 package tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
     private List<Integer> subtaskIds = new ArrayList<>();
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private Duration duration = Duration.ZERO;
 
     public Epic(String name, String description) {
         super(name, description);
@@ -21,13 +26,19 @@ public class Epic extends Task {
         return subtaskIds;
     }
 
+    @Override
     public String toString() {
-        return "Tasks.Epic id: " + id +
-                ", Name: " + this.name +
-                ", Descr: " + this.description +
-                ", Tasks.Progress: " + this.taskProgress +
-                ", Num of subtasks: " + this.getSubtaskIds().size() + "\n";
+        return String.format("%s. id: %s, name: %s, descr: %s, progress: %s, subtasks: %d, duration: %s, start: %s%n",
+                getTaskType(),
+                id,
+                name,
+                description,
+                taskProgress,
+                getSubtaskIds().size(),
+                formatDuration(duration),
+                startTime);
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -46,4 +57,33 @@ public class Epic extends Task {
     public TaskTypes getTaskType() {
         return TaskTypes.EPIC;
     }
+
+
+    public void setEpicStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEpicEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setEpicDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    @Override
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    @Override
+    public Duration getDuration() {
+        return duration;
+    }
+
 }

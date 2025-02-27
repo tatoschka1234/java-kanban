@@ -6,7 +6,10 @@ import tasks.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
@@ -28,6 +31,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
+    public void deleteTask(Task task) {
+        super.deleteTask(task);
+        save();
+    }
+
+    @Override
     public void addSubtask(Epic epic, Subtask subtask) {
         super.addSubtask(epic, subtask);
         save();
@@ -41,7 +50,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save() throws ManagerSaveException {
         try (FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8)) {
-            writer.write("id,type,name,status,description,epic\n");
+            writer.write("id,type,name,status,description,epic,start,duration\n");
             for (Task task : getAllTasks()) {
                 writer.write(toString(task));
             }
@@ -61,36 +70,53 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         if (task instanceof Subtask) {
             epicField = ((Subtask) task).getEpicId().toString();
         }
-        return String.format("%d,%s,%s,%s,%s,%s%n",
+        String startTimeStr = (task.getStartTime() != null)
+                ? task.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                : "";
+
+        String durationStr = (task.getDuration() != null)
+                ? String.valueOf(task.getDuration().toMinutes())
+                : "";
+
+        return String.format("%d,%s,%s,%s,%s,%s,%s,%s%n",
                 task.getId(),
                 task.getTaskType(),
                 task.getName(),
                 task.getProgress(),
                 task.getDescription(),
-                epicField);
+                epicField,
+                startTimeStr,
+                durationStr
+        );
     }
 
     static Task fromString(String csvLine) {
         String[] fields = csvLine.split(",", -1);
 
-        // Обрезаем пробелы и извлекаем поля:
         int id = Integer.parseInt(fields[0].trim());
         TaskTypes type = TaskTypes.valueOf(fields[1].trim());
         String name = fields[2].trim();
         Progress status = Progress.valueOf(fields[3].trim());
         String description = fields[4].trim();
 
+        String startTimeField = fields[6].trim();
+        LocalDateTime startTime = startTimeField.isEmpty() ? null :
+                LocalDateTime.parse(startTimeField, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+        String durationField = fields[7].trim();
+        Duration duration = durationField.isEmpty() ? null : Duration.ofMinutes(Long.parseLong(durationField));
+
         Task task;
 
         switch (type) {
             case TASK:
-                task = new Task(name, description, status);
+                task = new Task(name, description, status, startTime, duration);
                 break;
             case EPIC:
                 task = new Epic(name, description);
                 break;
             case SUBTASK:
-                task = new Subtask(name, description, status);
+                task = new Subtask(name, description, status, startTime, duration);
                 int epicId = Integer.parseInt(fields[5].trim());
                 ((Subtask) task).setEpicId(epicId);
                 break;
@@ -131,6 +157,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         if (epic != null) {
                             epic.addSubtaskId(subtask.getId());
                             manager.loadSubtask(subtask);
+                            manager.updateEpicProgress(epic);
+                            manager.updateEpicStartAndDuration(epic);
                         } else {
                             System.err.println("Не найден эпик для сабтаска с id: " + subtask.getId());
                         }

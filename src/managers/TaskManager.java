@@ -52,4 +52,6 @@ public interface TaskManager {
 
     int getNextId();
 
+    List<Task> getPrioritizedTasks();
+
 }

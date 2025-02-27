@@ -28,6 +28,7 @@ public class HistoryManagerTest {
         manager.removeAllEpics();
         manager.removeAllTasks();
     }
+
     @Test
     void addToHistory() {
         Task task1 = new Task("Task1", "task1_descr", Progress.DONE);
@@ -44,7 +45,7 @@ public class HistoryManagerTest {
     @Test
     void addToHistory11els() {
         Task task;
-        for (int i=0; i<11; i++) {
+        for (int i = 0; i < 11; i++) {
             task = new Task("Task" + i, "descr");
             manager.addTask(task);
             manager.getTask(task.getId());
@@ -56,7 +57,7 @@ public class HistoryManagerTest {
 
     @Test
     void addToHistoryTwice() {
-        Task task  = new Task("Task", "descr");
+        Task task = new Task("Task", "descr");
         manager.addTask(task);
         manager.getTask(task.getId());
         manager.getTask(task.getId());
@@ -67,8 +68,8 @@ public class HistoryManagerTest {
 
     @Test
     void addToHistoryOder() {
-        Task task  = new Task("Task1", "descr");
-        Task task2  = new Task("Task2", "descr");
+        Task task = new Task("Task1", "descr");
+        Task task2 = new Task("Task2", "descr");
         manager.addTask(task);
         manager.addTask(task2);
         manager.getTask(task.getId());
@@ -77,7 +78,7 @@ public class HistoryManagerTest {
         List<Task> history = manager.getHistory();
         assertNotNull(history, "История не пустая.");
         assertEquals(2, history.size(), "Неправильный размер истории");
-        assertEquals("Task1", history.get(history.size()-1).getName(), "Неправильное имя таски");
+        assertEquals("Task1", history.get(history.size() - 1).getName(), "Неправильное имя таски");
     }
 
     @Test
@@ -122,8 +123,8 @@ public class HistoryManagerTest {
 
     @Test
     void rmHistoryIfTaskRemoved() {
-        Task task  = new Task("Task1", "descr");
-        Task task2  = new Task("Task2", "descr");
+        Task task = new Task("Task1", "descr");
+        Task task2 = new Task("Task2", "descr");
         manager.addTask(task);
         manager.addTask(task2);
         manager.getTask(task.getId());
@@ -137,4 +138,23 @@ public class HistoryManagerTest {
         List<Task> history1 = manager.getHistory();
         assertEquals(1, history1.size(), "Неверный рвзмер истории");
     }
+
+    @Test
+    void shouldReturnEmptyHistoryWhenNoTasksAdded() {
+        List<Task> history = historyManager.getHistory();
+        assertTrue(history.isEmpty(), "История должна быть пустой, если не добавлены задачи");
+    }
+
+    @Test
+    void shouldNotAllowDuplicateEntriesInHistory() {
+        Task task = new Task("Task1", "Description");
+        manager.addTask(task);
+        manager.getTask(task.getId());
+        manager.getTask(task.getId());
+
+        List<Task> history = historyManager.getHistory();
+        assertEquals(1, history.size(), "История не должна содержать дубликаты");
+        assertEquals(task, history.get(0), "Задача в истории должна быть последним добавленным экземпляром");
+    }
+
 }
