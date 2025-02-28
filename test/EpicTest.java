@@ -9,7 +9,7 @@ class EpicTest {
     void epicsShouldBeEqualIfTheirIDsEqual() {
         Epic epic1 = new Epic("Epic1", "Epic descr");
         epic1.setId(1);
-        Epic epic2 = new Epic("Epic2", "epic2_desc");
+        Epic epic2 = new Epic("Epic1", "Epic descr");
         epic2.setId(1);
         assertEquals(epic1, epic2, "Эпики не равны");
     }

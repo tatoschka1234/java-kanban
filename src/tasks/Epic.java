@@ -8,15 +8,16 @@ import java.util.Objects;
 
 public class Epic extends Task {
     private List<Integer> subtaskIds = new ArrayList<>();
-    private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private Duration duration = Duration.ZERO;
 
     public Epic(String name, String description) {
         super(name, description);
     }
 
     public void addSubtaskId(int subtaskId) {
+        if (subtaskIds == null) {
+            subtaskIds = new ArrayList<>();
+        }
         if (!subtaskIds.contains(subtaskId)) {
             subtaskIds.add(subtaskId);
         }
@@ -42,16 +43,21 @@ public class Epic extends Task {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Epic)) return false;
         if (!super.equals(o)) return false;
 
         Epic epic = (Epic) o;
-        return Objects.equals(subtaskIds, epic.subtaskIds);
+        return Objects.equals(subtaskIds, epic.subtaskIds) &&
+                Objects.equals(endTime, epic.endTime);
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), subtaskIds);
+        return Objects.hash(super.hashCode(), subtaskIds, endTime);
     }
+
 
     @Override
     public TaskTypes getTaskType() {

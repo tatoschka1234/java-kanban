@@ -12,6 +12,14 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
+    private static final int ID = 0;
+    private static final int TYPE = 1;
+    private static final int NAME = 2;
+    private static final int STATUS = 3;
+    private static final int DESCRIPTION = 4;
+    private static final int EPIC_ID = 5;
+    private static final int START_TIME = 6;
+    private static final int DURATION = 7;
     private final File file;
 
     public FileBackedTaskManager(File file, HistoryManager historyManager) {
@@ -93,21 +101,20 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     static Task fromString(String csvLine) {
         String[] fields = csvLine.split(",", -1);
 
-        int id = Integer.parseInt(fields[0].trim());
-        TaskTypes type = TaskTypes.valueOf(fields[1].trim());
-        String name = fields[2].trim();
-        Progress status = Progress.valueOf(fields[3].trim());
-        String description = fields[4].trim();
+        int id = Integer.parseInt(fields[ID].trim());
+        TaskTypes type = TaskTypes.valueOf(fields[TYPE].trim());
+        String name = fields[NAME].trim();
+        Progress status = Progress.valueOf(fields[STATUS].trim());
+        String description = fields[DESCRIPTION].trim();
 
-        String startTimeField = fields[6].trim();
+        String startTimeField = fields[START_TIME].trim();
         LocalDateTime startTime = startTimeField.isEmpty() ? null :
                 LocalDateTime.parse(startTimeField, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
-        String durationField = fields[7].trim();
+        String durationField = fields[DURATION].trim();
         Duration duration = durationField.isEmpty() ? null : Duration.ofMinutes(Long.parseLong(durationField));
 
         Task task;
-
         switch (type) {
             case TASK:
                 task = new Task(name, description, status, startTime, duration);
@@ -117,7 +124,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 break;
             case SUBTASK:
                 task = new Subtask(name, description, status, startTime, duration);
-                int epicId = Integer.parseInt(fields[5].trim());
+                int epicId = Integer.parseInt(fields[EPIC_ID].trim());
                 ((Subtask) task).setEpicId(epicId);
                 break;
             default:
@@ -127,6 +134,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         task.setId(id);
         return task;
     }
+
 
     public static FileBackedTaskManager loadFromFile(File file) {
         if (!file.exists()) {

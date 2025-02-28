@@ -10,7 +10,7 @@ public class TaskTest {
     void tasksShouldBeEqualIfTheirIDsEqual() {
         Task task1 = new Task("Task1", "task1_descr", Progress.DONE);
         task1.setId(1);
-        Task task2 = new Task("Task2", "task2_descr");
+        Task task2 = new Task("Task1", "task1_descr", Progress.DONE);
         task2.setId(1);
         assertEquals(task1, task2, "Таски не равны");
     }

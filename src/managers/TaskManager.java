@@ -24,6 +24,8 @@ public interface TaskManager {
 
     Epic getEpic(int epicId);
 
+    Epic getEpicNoHistory(int epicId);
+
     Subtask getSubtask(int subtaskId);
 
     List<Task> getSubtasks(Epic epic);
