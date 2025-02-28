@@ -23,6 +23,7 @@ public interface TaskManager {
     Task getTask(int taskId);
 
     Epic getEpic(int epicId);
+
     Epic getEpicNoHistory(int epicId);
 
     Subtask getSubtask(int subtaskId);
