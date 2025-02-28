@@ -1,3 +1,4 @@
+import exceptions.NotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -250,7 +251,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         int subtaskId = subtask.getId();
         taskManager.deleteSubtask(subtask);
 
-        assertNull(taskManager.getSubtask(subtaskId), "Subtask должен быть удалён");
+        assertThrows(NotFoundException.class, () -> taskManager.getSubtask(subtaskId));
+
         assertFalse(epic.getSubtaskIds().contains(subtaskId), "Эпик не должен содержать старый ID подзадачи");
     }
 
